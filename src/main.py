@@ -32,6 +32,7 @@ def test():
         "output/created_gif.gif",
         save_all=True,
         append_images = output[1:],
+        disposal=2,
         loop=0
     )
     
