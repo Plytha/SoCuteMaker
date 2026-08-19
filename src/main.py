@@ -27,7 +27,7 @@ def ensure_directory():
     os.mkdir("output")
 
 
-def socutify(image_path: str) -> None:
+def socutify(image_path: str, flip:bool) -> None:
     """Image manip code mostly taken from: https://medium.com/thedevproject/quick-and-easy-gif-creation-and-optimization-with-python-5223814861e2"""
     ensure_directory()
 
@@ -38,7 +38,11 @@ def socutify(image_path: str) -> None:
 
     # manip on the image to cutify
     size=128, 128
-    resized = rs.resize(size)
+    if flip:
+        resized = rs.resize(size).transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    else:
+        resized = rs.resize(size)
+        
     
 
     # prepare the output and the frames
@@ -48,7 +52,7 @@ def socutify(image_path: str) -> None:
 
     # actually make the gif
     for i, frame in enumerate(bl_frames):
-        frame.paste(resized_transposed, mask=resized_transposed)
+        frame.paste(resized, mask=resized)
         frame.paste(fl_frames[i], (0,0,128,128), fl_frames[i])
 
         output.append(frame)
@@ -67,6 +71,7 @@ def setup_parser():
     parser = argparse.ArgumentParser(description="Make any image socute")
 
     parser.add_argument("-i", "--image")
+    parser.add_argument("-f", "--flip", action='store_true')
 
     return parser
 
@@ -76,12 +81,12 @@ def check_args(parser):
     if args.image is None:
         raise RuntimeError("Please specify an image path to socutify...")
     
-    return args.image
+    return args.image, args.flip
 
 def main():
     parser = setup_parser()
-    image_path = check_args(parser)
-    socutify(image_path)
+    image_path, flip = check_args(parser)
+    socutify(image_path, flip)
 
 if __name__=='__main__':
     main()
