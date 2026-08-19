@@ -39,7 +39,7 @@ def socutify(image_path: str) -> None:
     # manip on the image to cutify
     size=128, 128
     resized = rs.resize(size)
-    resized_transposed = resized.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    
 
     # prepare the output and the frames
     output = []
