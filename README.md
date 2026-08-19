@@ -12,5 +12,3 @@ python src/main.py -i [image_path]
 \- Add transform to the image before output
 
 \- Test on Linux
-
-\- add command line parameters to flip the image horizontally and/or vertically
